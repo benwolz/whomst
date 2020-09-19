@@ -1,0 +1,19 @@
+{
+  "name": "whomst",
+  "version": "1.0.0",
+  "description": "A better ice-breaker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benwolz/whomst.git"
+  },
+  "author": "Peyton Greve, Grant Miller, Dan Pilsbury, Ben Wolz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benwolz/whomst/issues"
+  },
+  "homepage": "https://github.com/benwolz/whomst#readme"
+}
