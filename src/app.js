@@ -13,8 +13,10 @@ const app = express();
 const server = http.createServer(app);
 var io = socketIO(server);
 
+app.use(express.static('public'));
+
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/home.html');
+  res.sendFile(__dirname + '/views/landing/index.html');
 });
 
 
