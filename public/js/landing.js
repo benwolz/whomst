@@ -6,7 +6,7 @@ var socket = io();
 
 function joinGame() {
     var requestJson = {"username": username.value, "gameId": gameId.value};
-
+    console.log(`Attempting to join game ${gameId.value}`);
     socket.emit('userJoinGame', requestJson, error => {
         console.log(error);
         alert("Username and/or gameId is not valid.");

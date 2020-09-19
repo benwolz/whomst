@@ -5,7 +5,8 @@ const mongoose = require('mongoose');
 const Game = new mongoose.Schema ({
   game_id: Number,
   host_id: String,
-  host_name: String
+  host_name: String,
+  players: Array
 });
 
 // compile model from schema
