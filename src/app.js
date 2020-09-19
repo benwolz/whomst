@@ -33,6 +33,10 @@ app.get('/client_shit', (req, res) => {
   res.sendFile(`${__dirname}/views/home.html`);
 });
 
+app.get('/rankings', (req,res) => {
+    res.sendFile(`${__dirname}/views/rankings/index.html`);
+  });
+
 server.listen(process.env.PORT, () => {
   console.log(`Listening on localhost:${process.env.PORT}`);
 });
