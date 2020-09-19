@@ -8,61 +8,65 @@ const Player = require('../schemas/player');
 router.get('/test', (req, res) => {
   console.log('testing api works');
   console.log(req.session.id);
-  res.send({test:'testicle'});
+  res.send({ test: 'testicle' });
 });
 
 router.post('/create-game', (req, res) => {
   console.log("attempting to create game");
-    Game.find().distinct('game_id', (error, ids) => {
-      var gameId = Math.floor(Math.random()*900000)+100000; // Random 6 digit number
-      while(ids.includes(gameId)) {
-        gameId = Math.floor(Math.random()*900000)+100000;
-      }
-      let game = new Game({
-        game_id: gameId,
-        host_id: req.session.id,
-        host_name: req.username,
-        players: [req.session.id]
-      });
-      game.save();
-      console.log(`Game created with game pin ${gameId}`);
-
-      let player = new Player({ // Create a new player
-        score: 0,
-        user_id: req.session.id,
-        username: req.username,
-        isHost: true,
-        facts: req.facts
-      });
-      player.save();
-      console.log(`User ${req.username} joined game with id ${req.gameId}`);
-
-      
-      res.send({
-        status: 'ok',
-        gameId: gameId
-      });
+  console.log(req.body);
+  Game.find().distinct('game_id', (error, ids) => {
+    var gameId = Math.floor(Math.random() * 900000) + 100000; // Random 6 digit number
+    while (ids.includes(gameId)) {
+      gameId = Math.floor(Math.random() * 900000) + 100000;
+    }
+    let game = new Game({
+      game_id: gameId,
+      host_id: req.session.id,
+      host_name: req.body.username,
+      players: [req.session.id],
+      factList: [],
+      isStarted: false,
+      factIndex: 0
     });
+    game.save();
+    console.log(`Game created with game pin ${gameId}`);
+
+    let player = new Player({ // Create a new player
+      score: 0,
+      user_id: req.session.id,
+      username: req.body.username,
+      isHost: true,
+      facts: req.body.facts
+    });
+    player.save();
+    console.log(`User ${req.body.username} joined game with id ${gameId}`);
+
+
+    res.send({
+      status: 'ok',
+      gameId: gameId
+    });
+  });
 });
 
 router.post('/join-game', (req, res) => {
   console.log("Attempting to join a game");
-  Game.findOne({game_id: req.gameId }).then(game => {
+  Game.findOne({ game_id: req.body.gameId }).then(game => {
     if (game && !game.players.includes(req.session.id)) {
       let player = new Player({ // Create a new player
         score: 0,
         user_id: req.session.id,
-        username: req.username,
-        isHost: game.game_id === req.gameId,
-        facts: req.facts // Need to add facts
+        username: req.body.username,
+        isHost: game.game_id === req.body.gameId,
+        facts: req.body.facts // Need to add facts
       });
       player.save();
-      console.log(`User ${req.username} joined game with id ${req.gameId}`);
+      console.log(`User ${req.body.username} joined game with id ${req.body.gameId}`);
 
       game.players.push(req.session.id);
       game.save();
     } else {
-      if(game && game.players.includes(req.session.id)) {
+      if (game && game.players.includes(req.session.id)) {
         res.send({
           status: 'failed',
           errorMessage: 'Player already in game',
@@ -81,10 +85,10 @@ router.post('/join-game', (req, res) => {
 
 router.get('/score', (req, res) => {
   Player.findOne({ user_id: req.session.id }).then(player => {
-    if(player) {
-      res.send({score: player.score});
+    if (player) {
+      res.send({ score: player.score });
     } else {
-      res.send({status: 'error', errorMessage:"Player Not Found"});
+      res.send({ status: 'error', errorMessage: "Player Not Found" });
     }
   });
 });
@@ -96,13 +100,13 @@ router.get('/game-info', (req, res) => {
         res.send({
           game_id: game.game_id,
           host_id: game.host_id,
-          players: game.players,          
+          players: game.players,
           isStarted: game.isStarted,
           isHost: game.host_id === req.session.id
         });
       });
     } else {
-      res.send({ status: 'error', errorMessage:"Player Not Found"});
+      res.send({ status: 'error', errorMessage: "Player Not Found" });
     }
   });
 });
@@ -112,9 +116,9 @@ router.get('/start-game', (req, res) => {
     if (player && player.isHost) {
       Game.findOne({ game_id: player.game_id }).then(game => {
         let factList = []; // Not sure if this will work
-        for(let gamePlayer of game.players) {
+        for (let gamePlayer of game.players) {
           Player.findOne({ user_id: gamePlayer }).then(playerData => {
-            if(playerData) {
+            if (playerData) {
               for (let fact of playerData.facts) {
                 factList.push({
                   player: playerData.user_id,
@@ -128,7 +132,7 @@ router.get('/start-game', (req, res) => {
         factList = _.shuffle(factList);
         game.isStarted = true;
         game.factIndex = 0;
-        game.factList = factList.slice(0,10); // take the first 10 fact
+        game.factList = factList.slice(0, 10); // take the first 10 fact
         game.save();
       });
     }

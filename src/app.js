@@ -6,7 +6,7 @@ const db = require('./db');
 const api = require('./routes/api.js');
 const socketIO = require('socket.io');
 const session = require('express-session');
-// const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 // const passport = require('./passport');
 
 const Game = require('./schemas/game');
@@ -15,6 +15,10 @@ const Player = require('./schemas/player');
 const app = express();
 const server = http.createServer(app);
 var io = socketIO(server);
+
+// set POST request body parser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(session({
   secret: 'session-secret',

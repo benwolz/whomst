@@ -6,7 +6,7 @@ function enterLobby() {
     const username = searchParams.get("username");
     const gameId = searchParams.get("gameId");
     const isHost = searchParams.get("isHost");
-    const facts = [document.getElementById("fact1"), document.getElementById("fact2"), document.getElementById("fact3")];
+    const facts = [document.getElementById("fact1").value, document.getElementById("fact2").value, document.getElementById("fact3").value];
 
     var requestJson;
     if (isHost){
@@ -19,7 +19,7 @@ function enterLobby() {
 
     console.log(`Attempting to join game ${gameId}`);
     console.log(`ID: ${gameId} UserName: ${username} url: ${endOfURL} facts: ${facts}`);
-
+    
     try {
         let url;
         if (isHost){
@@ -27,14 +27,7 @@ function enterLobby() {
         } else{
             url = '/api/create-game';
         }
-        var http = new XMLHttpRequest();
-        var params = requestJson;
-        http.open('POST', url, true);
-
-        //Send the proper header information along with the request
-        http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
-        http.send(params);
+        post(url, requestJson);
     }
     catch (error) {
         console.error(error);
