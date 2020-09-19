@@ -5,7 +5,7 @@ const joinGameButton = document.getElementById("joinGame");
 var socket = io();
 
 function joinGame() {
-    var requestJson = {"username": username.value, "gameId": gameId.value, "isHost": false};
+    var requestJson = {"username": username.value, "gameId": gameId.value};
 
     socket.emit('userJoinGame', requestJson, error => {
         console.log(error);
@@ -14,7 +14,7 @@ function joinGame() {
 }
 
 function createGame() {
-    var requestJson = {"username": username.value, "gameId": gameId.value, "isHost": true};
+    var requestJson = {"username": username.value, "gameId": gameId.value};
     console.log('Trying to create a game');
     console.log(requestJson);
     socket.emit('userCreateGame', requestJson, error => {
