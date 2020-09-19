@@ -1,43 +1,32 @@
-// const http = require('http');
+const path = require('path');
+require('dotenv').config();
 const express = require('express');
 const http = require('http');
-const {MongoClient} = require('mongodb');
+const db = require('./db');
+const socketIO = require('socket.io');
 // const api = require('./routes/api');
 // const bodyParser = require('body-parser');
-// const dotenv = require('dotenv').config();
-// const session = require('express-session');
-// const db = require('./db');
 // const passport = require('./passport');
-const app = express();
 
-const PORT = 3000;
-const server = http.Server(app);
-server.listen(PORT, () => {
-  console.log(`Listening on localhost:${PORT}`);
-});
+const app = express();
+const server = http.createServer(app);
+var io = socketIO(server);
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/home.html');
 });
 
-async function main(){
-  const uri = "mongodb+srv://whomst:wapwap@cluster0.celba.mongodb.net/whomstDB?retryWrites=true&w=majority";
 
 
-  const client = new MongoClient(uri);
+server.listen(process.env.PORT, () => {
+  console.log(`Listening on localhost:${process.env.PORT}`);
+});
 
-  try {
-    // Connect to the MongoDB cluster
-    await client.connect();
+io.listen(server);
 
-  } catch (e) {
-    console.error(e);
-  } finally {
-    await client.close();
-  }
-}
-
-main().catch(console.error);
+io.on('connection', (socket) => {
+  console.log('socket connected');
+});
 
 // Connections
 // app.use('/static', express.static('public'));
