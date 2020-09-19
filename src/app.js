@@ -8,7 +8,8 @@ const socketIO = require('socket.io');
 // const bodyParser = require('body-parser');
 // const passport = require('./passport');
 
-const Game = require('./schemas/game')
+const Game = require('./schemas/game');
+const Player = require('./schemas/player')
 
 const app = express();
 const server = http.createServer(app);
@@ -45,73 +46,47 @@ io.on('connection', (socket) => {
   console.log('socket connected');
 
   socket.on('userCreateGame', (req) => {
-    let game = new Game({
-      game_id: req.gameId,
-      host_id: socket.id,
-      host_name: req.username
+    console.log("attempting to create game");
+    Game.find().distinct('game_id', (error, ids) => {
+      var gameId = Math.floor(Math.random()*900000)+100000; // Random 6 digit number
+      while(ids.includes(gameId)) {
+        gameId = Math.floor(Math.random()*900000)+100000;
+      }
+      let game = new Game({
+        game_id: gameId,
+        host_id: socket.id,
+        host_name: req.username,
+        players: [socket.id]
+      });
+      game.save();
+      console.log(`Game created with game pin ${gameId}`);
     });
-    game.save();
-    console.log('Game created');
   });
 
+  socket.on('userJoinGame', (req) => {
+    Game.findOne({game_id: req.gameId }).then(game => {
+      if (game && !game.players.includes(socket.id)) {
+        let player = new Player({ // Create a new player
+          score: 0,
+          user_id: socket.id,
+          username: req.username,
+          isHost: game.game_id === req.gameId,
+          facts: [] // Need to add facts
+        });
+        player.save();
+        console.log(`User ${req.username} joined game with id ${req.gameId}`);
+
+        game.players.push(socket.id);
+        game.save();
+      } else {
+        if(game && game.players.includes(socket.id)) {
+          socket.emit("exception", {errorMessage: "Player already in the game"}); // This doesn't quite work yet
+        } else { // Need to figure out how to send information back to client
+          socket.emit("exception", {errorMessage: "Game pin does not exist"});
+        }
+      }
+    });
+
+  })
+
 });
-
-// Connections
-// app.use('/static', express.static('public'));
-// app.use('/api', api);
-// app.engine('html', require('ejs').renderFile);
-// app.set('views', __dirname + '/views');
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-
-// app.use(session({
-//   secret: 'session-secret',
-//   resave: 'false',
-//   saveUninitialized: 'true'
-// }));
-
-// hook up passport
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// authentication routes
-// app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
-
-// app.get(
-//   '/auth/google/callback',
-//   passport.authenticate(
-//     'google',
-//     { failureRedirect: '/login' }
-//   ),
-//   function(req, res) {
-//     res.redirect('/feed');
-//   }
-// );
-
-
-// app.get('/logout', function(req, res) {
-//   req.logout();
-//   res.redirect('/');
-// });
-
-// 404 route
-// app.use(function(req, res, next) {
-//   const err = new Error('Not Found');
-//   err.status = 404;
-//   next(err);
-// });
-// 
-// // route error handler
-// app.use(function(err, req, res, next) {
-//   res.status(err.status || 500);
-//   res.send({
-//     status: err.status,
-//     message: err.message,
-//   });
-// });
-// 
-// const PORT = 3000;
-// server = http.Server(app);
-// server.listen(PORT,function() {
-//   console.log('server listening on port ' + PORT);
-// })
