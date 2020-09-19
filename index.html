@@ -51,13 +51,23 @@
 
   <!-- Header -->
   <header class="masthead d-flex">
-    <div class="container text-center my-auto">
-      <h1 class="mb-1">Stylish Portfolio</h1>
-      <h3 class="mb-5">
-        <em>A Free Bootstrap Theme by Start Bootstrap</em>
-      </h3>
-      <a class="btn btn-primary btn-xl js-scroll-trigger" href="#about">Find Out More</a>
-    </div>
+    <form>
+      <div class="col-md-4 col-md-offset-4">
+        <div class="form-group w-25">
+          <label for="username">username</label>
+          <input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="e.g. Rafael Reif">
+        </div>
+        <div class="form-group w-25">
+          <label for="gameId">game id</label>
+          <input type="text" class="form-control" id="gameId" placeholder="XXXX">
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
     <div class="overlay"></div>
   </header>
 
