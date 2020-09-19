@@ -19,6 +19,14 @@ app.get('/', (req,res) => {
   res.sendFile(__dirname + '/views/landing/index.html');
 });
 
+app.get('/facts', (req,res) => {
+    res.sendFile(`${__dirname}/views/facts/index.html`);
+  });
+
+app.get('/lobby', (req,res) => {
+    res.sendFile(`${__dirname}/views/lobby/index.html`);
+  });
+
 server.listen(process.env.PORT, () => {
   console.log(`Listening on localhost:${process.env.PORT}`);
 });
