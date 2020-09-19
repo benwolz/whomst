@@ -8,6 +8,8 @@ const socketIO = require('socket.io');
 // const bodyParser = require('body-parser');
 // const passport = require('./passport');
 
+const Game = require('./schemas/game')
+
 const app = express();
 const server = http.createServer(app);
 var io = socketIO(server);
@@ -25,7 +27,11 @@ app.get('/facts', (req,res) => {
 
 app.get('/lobby', (req,res) => {
     res.sendFile(`${__dirname}/views/lobby/index.html`);
-  });
+});
+
+app.get('/client_shit', (req, res) => {
+  res.sendFile(`${__dirname}/views/home.html`);
+});
 
 server.listen(process.env.PORT, () => {
   console.log(`Listening on localhost:${process.env.PORT}`);
@@ -33,6 +39,17 @@ server.listen(process.env.PORT, () => {
 
 io.on('connection', (socket) => {
   console.log('socket connected');
+
+  socket.on('userCreateGame', (req) => {
+    let game = new Game({
+      game_id: req.gameId,
+      host_id: socket.id,
+      host_name: req.username
+    });
+    game.save();
+    console.log('Game created');
+  });
+
 });
 
 // Connections

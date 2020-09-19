@@ -1,16 +1,13 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <title>
-      Home
-    </title>
+    <script src="https://cdn.socket.io/socket.io-2.3.0.js"></script>
+    <script>
+      var socket = io();
+      socket.emit('userCreateGame',{host_name:'h',username:'asdh'});
+    </script>
   </head>
   <body>
-    Hello worldasdifjo
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-     var socket = io();
-    </script>
+    <h1>This is America</h1>
   </body>
 </html>
-
-

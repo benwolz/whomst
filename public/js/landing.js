@@ -15,7 +15,8 @@ function joinGame() {
 
 function createGame() {
     var requestJson = {"username": username.value, "gameId": gameId.value, "isHost": true};
-
+    console.log('Trying to create a game');
+    console.log(requestJson);
     socket.emit('userCreateGame', requestJson, error => {
         console.log(error);
         alert("Username and/or gameId is not valid.");
