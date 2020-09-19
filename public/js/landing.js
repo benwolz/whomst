@@ -11,6 +11,8 @@ function joinGame() {
         console.log(error);
         alert("Username and/or gameId is not valid.");
     });
+
+    window.location.href = '/facts';
 }
 
 function createGame() {
@@ -21,4 +23,6 @@ function createGame() {
         console.log(error);
         alert("Username and/or gameId is not valid.");
     });
+
+    window.location.href = '/facts';
 }

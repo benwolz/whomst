@@ -24,34 +24,47 @@
 </head>
 
 <body>
+    <!-- Header -->
+    <header class="masthead d-flex flex-column align-items-center">
 
-  <div class="container d-flex justify-content-center">
-    <div class="d-flex flex-column align-items-center">
-      <div><h1>Hello World</h1></div>
-      <div><h2>Hello World</h2></div>
+    <div class="container d-flex flex-column align-items-center">
+        <div>
+            <h2>game pin goes here</h2>
+        </div>
+
+        <div class="card my-3" style="width: 100%; opacity: 0.2;">
+          <div class="card-title my-2 text-center">
+            <h5>players go below this</h5>
+          </div>
+          <!-- we probably want to import the current players into this element via API call-->
+          <div class="card-body">
+            <h5>other player</h5>
+          </div>
+        </div>
+
     </div>
-  </div>
-
-  <footer >
-    <div class="container text-center">
-      <a type="button" class="btn btn-danger" href = "/">Exit</a>
+    <!-- button for handling starting the game -->
+    <div>
+      <button onclick="" type="submit" class="btn btn-lg btn-primary btn-block">start game</button>
     </div>
-  </footer>
-  
-  <script src = "../../socket.io/socket.io.js"></script>
-  <script src = "../../js/libs/jqueryLibrary.js"></script>
-  <script src = "../../js/libs/deparam.js"></script>
-  <script src = "../../js/hostGame.js"></script>
 
-  <!-- code we made -->
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Plugin JavaScript -->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <footer class="footer">
+      <!-- if the player is already in a game, we probably want this to be a button that invokes a call for a player to leave a game -->
+      <a type="button" class="btn btn-danger my-5" href = "/">Exit</a>
+    </footer>
+    
 
-  <!-- Custom scripts for this template -->
-  <script src="js/stylish-portfolio.min.js"></script>
+    <!-- code we made -->
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for this template -->
+    <script src="js/stylish-portfolio.min.js"></script>
 </body>

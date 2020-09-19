@@ -25,32 +25,35 @@
 
 <body>
 
+    <!-- Header -->
+    <header class="masthead d-flex flex-column justify-content-center align-items-center">
+
     <div class="container">
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card my-5">
+        <div class="card my-5 align-items-center" style="opacity: 0.1;">
             <div class="card-body">
             <h5 class="card-title text-center">enter your facts!</h5>
             <form>
-
-                <div class="form-label-group">
-                <input type="text" id="fact1" class="form-control" placeholder="Fact 1" required>
-                <label for="fact1"></label>
+                <div class="d-flex flex-column align-items-center">
+                  <div class="form-label-group">
+                  <input type="text" id="fact1" class="form-control" placeholder="Fact 1" required>
+                  <label for="fact1"></label>
+                  </div>
+                  
+                  <div class="form-label-group">
+                  <input type="text" id="fact2" class="form-control" placeholder="Fact 2" required>
+                  <label for="fact2"></label>
+                  </div>
+                  
+                  <div class="form-label-group">
+                  <input type="text" id="fact3" class="form-control" placeholder="Fact 3" required>
+                  <label for="fact3"></label>
+                  </div>
+                
+                  <!-- we can probably send data directly to backend from here, assuming we know player and game already-->
+                  <button class="btn btn-md btn-primary btn-block text-uppercase my-1" type="submit">enter game</button>
                 </div>
-                
-                <div class="form-label-group">
-                <input type="text" id="fact2" class="form-control" placeholder="Fact 2" required>
-                <label for="fact2"></label>
-                </div>
-                
-                <div class="form-label-group">
-                <input type="text" id="fact3" class="form-control" placeholder="Fact 3" required>
-                <label for="fact3"></label>
-                </div>
-                
-                <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">enter game</button>
-                
-                <hr class="my-4">
                 
             </form>
             </div>
@@ -59,10 +62,9 @@
     </div>
     </div>
 
-    <footer >
-      <div class="container text-center">
-        <a type="button" class="btn btn-danger" href = "/">Exit</a>
-      </div>
+    <footer class="footer">
+      <!-- if the player is already in a game, we probably want this to be a button that invokes a call for a player to leave a game -->
+      <a type="button" class="btn btn-danger my-5" href = "/">Exit</a>
     </footer>
 
   <!-- code we made -->

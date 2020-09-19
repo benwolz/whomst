@@ -26,25 +26,43 @@
 <body id="page-top">
 
   <!-- Header -->
-  <header class="masthead d-inline-flex justify-content-center">
+  <header class="masthead d-flex flex-column align-items-center">
     
-    <div class= "d-flex flex-column justify-content-center align-items-center">
-        
-        <h1>whomst.io</h1>
-        
-        <!-- Input fields -->
-        <div class="d-flex justify-content-center" >username</div>
-        <input type="text" class="form-control username" id="username" placeholder="e.g Rafael Reif" name="username">
-        
-        <button onclick="createGame()" type="submit" class="btn btn-primary btn-customized justify-content-center" id="createGame">create game</button>
-
-        <div class="d-flex justify-content-center" >game id</div>
-        <input type="text" class="form-control username" id="gameId" placeholder="XXXX" name="text">
-        
-        <!-- add href later-->
-        <button onclick="joinGame()" type="submit" class="btn btn-primary btn-customized" id="joinGame">join game</button>
-        
+    <div>
+      <h1>whomst</h1>
     </div>
+    
+
+    <!-- new div object -->
+    <div class="container">
+      <div class="row">
+          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+
+              <form>
+
+                  <div class="d-flex flex-column justify-content-center align-items-center">
+
+                    <div class="form-label-group justify-content-center align-items-center">
+                      <input type="text" class="form-control" id="gameId" placeholder="GAME PIN" name="gameId" style="text-align: center;" required>
+                      <button onclick="joinGame()" type="submit" value="joinGame" class="btn btn-primary btn-block btn-lg">join game</button>
+                    </div>
+                  
+                    
+                    <p style="padding: 20px;"><strong>- or -</strong></p>
+
+                    <div class="form-label-group justify-content-center">
+                      <input type="text" class="form-control username" id="username" placeholder="USERNAME" name="username" style="text-align: center;" required>
+                      <button onclick="createGame()" type="submit" class="btn btn-lg btn-primary btn-block">create game</button>
+                    </div>
+
+
+                  </div>
+                </form>
+
+          </div>
+      </div>
+    </div>
+    <!-- end new div -->
   </header>
 
   <script src="https://cdn.socket.io/socket.io-2.3.0.js"></script>
