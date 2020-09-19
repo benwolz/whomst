@@ -16,6 +16,8 @@ var io = socketIO(server);
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/home.html');
 });
+
+
 app.use('/api',api);
 
 
