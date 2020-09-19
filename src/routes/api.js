@@ -8,7 +8,7 @@ const Player = require('../schemas/player');
 router.get('/test', (req, res) => {
   console.log('testing api works');
   console.log(req.session.id);
-  res.send({});
+  res.send({test:'testicle'});
 });
 
 router.post('/create-game', (req, res) => {
@@ -97,11 +97,12 @@ router.get('/game-info', (req, res) => {
           game_id: game.game_id,
           host_id: game.host_id,
           players: game.players,          
-          isStarted: game.isStarted
+          isStarted: game.isStarted,
+          isHost: game.host_id === req.session.id
         });
       });
     } else {
-      res.send({ status: 'error', errorMessage:"Player Not Found" });
+      res.send({ status: 'error', errorMessage:"Player Not Found"});
     }
   });
 });
