@@ -5,7 +5,6 @@ const http = require('http');
 const db = require('./db');
 const api = require('./routes/api.js');
 const socketIO = require('socket.io');
-// const api = require('./routes/api');
 // const bodyParser = require('body-parser');
 // const passport = require('./passport');
 
@@ -14,20 +13,15 @@ const server = http.createServer(app);
 var io = socketIO(server);
 
 app.use(express.static('public'));
-
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/views/landing/index.html');
-});
-
-
 app.use('/api',api);
 
+app.get('/', (req,res) => {
+  res.sendFile(__dirname + '/views/landing/index.html');
+});
 
 server.listen(process.env.PORT, () => {
   console.log(`Listening on localhost:${process.env.PORT}`);
 });
-
-io.listen(server);
 
 io.on('connection', (socket) => {
   console.log('socket connected');
