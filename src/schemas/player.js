@@ -6,6 +6,7 @@ const Player = new mongoose.Schema ({
   score: Number,
   user_id: String,
   username: String,
+  game_id: Number,
   isHost: Boolean,
   facts: Array
 });

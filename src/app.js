@@ -90,28 +90,28 @@ io.on('connection', (socket) => {
       socket.to(req.gameId).emit("newUserJoined", req.username);
     } 
 
-    // Game.findOne({game_id: req.gameId }).then(game => {
-    //   if (game && !game.players.includes(socket.id)) {
-        // let player = new Player({ // Create a new player
-        //   score: 0,
-        //   user_id: socket.id,
-        //   username: req.username,
-        //   isHost: game.game_id === req.gameId,
-        //   facts: [] // Need to add facts
-        // });
-        // player.save();
-        // console.log(`User ${req.username} joined game with id ${req.gameId}`);
+    Game.findOne({game_id: req.gameId }).then(game => {
+      if (game && !game.players.includes(socket.id)) {
+        let player = new Player({ // Create a new player
+          score: 0,
+          user_id: socket.id,
+          username: req.username,
+          isHost: game.game_id === req.gameId,
+          facts: [] // Need to add facts
+        });
+        player.save();
+        console.log(`User ${req.username} joined game with id ${req.gameId}`);
 
-    //     game.players.push(socket.id);
-    //     game.save();
-    //   } else {
-    //     if(game && game.players.includes(socket.id)) {
-    //       socket.emit("exception", {errorMessage: "Player already in the game"}); // This doesn't quite work yet
-    //     } else { // Need to figure out how to send information back to client
-    //       socket.emit("exception", {errorMessage: "Game pin does not exist"});
-    //     }
-    //   }
-    // });
+        game.players.push(socket.id);
+        game.save();
+      } else {
+        if(game && game.players.includes(socket.id)) {
+          socket.emit("exception", {errorMessage: "Player already in the game"}); // This doesn't quite work yet
+        } else { // Need to figure out how to send information back to client
+          socket.emit("exception", {errorMessage: "Game pin does not exist"});
+        }
+      }
+    });
 
     // add endpoint for leaving games
     // need to figure out how to send data back to the client
