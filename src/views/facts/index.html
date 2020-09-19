@@ -34,28 +34,26 @@
         <div class="card my-5 align-items-center" style="background-color: transparent;">
             <div class="card-body">
             <h5 class="card-title text-center">enter your facts!</h5>
-            <form>
                 <div class="d-flex flex-column align-items-center">
-                  <div class="form-label-group">
-                  <input type="text" id="fact1" class="form-control" placeholder="Fact 1" required>
-                  <label for="fact1"></label>
-                  </div>
-                  
-                  <div class="form-label-group">
-                  <input type="text" id="fact2" class="form-control" placeholder="Fact 2" required>
-                  <label for="fact2"></label>
-                  </div>
-                  
-                  <div class="form-label-group">
-                  <input type="text" id="fact3" class="form-control" placeholder="Fact 3" required>
-                  <label for="fact3"></label>
-                  </div>
+                    <div class="form-label-group">
+                    <input type="text" id="fact1" class="form-control" placeholder="Fact 1" required>
+                    <label for="fact1"></label>
+                    </div>
+                    
+                    <div class="form-label-group">
+                    <input type="text" id="fact2" class="form-control" placeholder="Fact 2" required>
+                    <label for="fact2"></label>
+                    </div>
+                    
+                    <div class="form-label-group">
+                    <input type="text" id="fact3" class="form-control" placeholder="Fact 3" required>
+                    <label for="fact3"></label>
+                    </div>
                 
-                  <!-- we can probably send data directly to backend from here, assuming we know player and game already-->
-                  <button class="btn btn-md btn-primary btn-block text-uppercase my-1" type="submit">enter game</button>
+                    <!-- we can probably send data directly to backend from here, assuming we know player and game already-->
+                    <button onclick="enterLobby()" class="btn btn-md btn-primary btn-block text-uppercase my-1" type="submit">enter game</button>
                 </div>
                 
-            </form>
 
 
             </div>
@@ -70,6 +68,7 @@
     </footer>
 
   <!-- code we made -->
+  <script src='./js/facts.js'></script>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>

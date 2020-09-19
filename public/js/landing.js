@@ -13,7 +13,7 @@ function joinGame() {
         alert("Username and/or gameId is not valid.");
     });
 
-    let endOfURL = '/facts' + '?username='+username.value + '?gameId=' +gameId.value;
+    let endOfURL = '/facts' + '?username='+username.value + '&gameId=' +gameId.value + '&isHost=false';
     window.location.href = endOfURL;
 }
 
@@ -31,6 +31,6 @@ function createGame() {
     });
 
     
-    let endOfURL = '/facts?username=' + createGameUsername.value;
+    let endOfURL = '/facts?username=' + createGameUsername.value + '&isHost=true';
     window.location.href = endOfURL;
 }
