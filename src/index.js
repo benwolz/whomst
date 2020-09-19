@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const http = require('http');
 const db = require('./db');
+const api = require('./routes/api.js');
 const socketIO = require('socket.io');
 // const api = require('./routes/api');
 // const bodyParser = require('body-parser');
@@ -15,7 +16,7 @@ var io = socketIO(server);
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/home.html');
 });
-
+app.use('/api',api);
 
 
 server.listen(process.env.PORT, () => {
