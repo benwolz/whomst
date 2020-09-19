@@ -25,6 +25,7 @@
 
 <body id="page-top">
 
+  
   <!-- Navigation -->
   <nav id="sidebar-wrapper">
     <ul class="sidebar-nav">
@@ -49,36 +50,33 @@
     </ul>
   </nav>
 
-  <!-- Header -->
-  <header class="masthead d-inline-flex justify-content-center align-items-center">
-    <div class="d-flex">
-      <!-- Form -->
-      <form class="form" action="" method="post">
-          <div class="form-group d-flex">
-            <h1>whomst.io</h1>
-          </div>
-          <!-- Input fields -->
-          <div class="d-flex justify-content-center" >username</div>
-          <div class="form-group d-flex-column justify-content-center">
-              <input type="text" class="form-control username" id="username" placeholder="e.g Rafael Reif" name="username">
-          </div>
-          <div class="d-flex justify-content-center" >
-            <button type="submit" class="btn btn-primary btn-customized justify-content-center">create game</button>
-          </div>
 
-          <div class="d-flex justify-content-center" >game id</div>
-          <div class="form-group d-flex">
-              <input type="password" class="form-control username" id="password" placeholder="XXXX" name="password">
-          </div>
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary btn-customized">join game</button>
-          </div>
-          
-      </form>
-      <!-- Form end -->
-  </div>
+  <!-- Header -->
+  <header class="masthead d-inline-flex justify-content-center">
+    
+    <div class= "d-flex flex-column justify-content-center align-items-center">
+        
+        <h1>whomst.io</h1>
+        
+        <!-- Input fields -->
+        <div class="d-flex justify-content-center" >username</div>
+        <input type="text" class="form-control username" id="username" placeholder="e.g Rafael Reif" name="username">
+        
+        <button type="submit" class="btn btn-primary btn-customized justify-content-center">create game</button>
+
+        <div class="d-flex justify-content-center" >game id</div>
+        <input type="password" class="form-control username" id="password" placeholder="XXXX" name="password">
+        
+        <button onclick="myFunction(this)" type="submit" class="btn btn-primary btn-customized">join game</button>
+        
+    </div>
   </header>
 
+  <script>
+    function myFunction(ele) {
+      ele.innerText = "hello";
+    }
+  </script>
 
   <!-- Scroll to Top Button-->
   <a class="scroll-to-top rounded js-scroll-trigger" href="#page-top">
