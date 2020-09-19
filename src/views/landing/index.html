@@ -32,34 +32,27 @@
       <h1>whomst</h1>
     </div>
     
-
-    <!-- new div object -->
     <div class="container">
-      <div class="row">
-          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
 
-              <form>
-
-                  <div class="d-flex flex-column justify-content-center align-items-center">
-
-                    <div class="form-label-group justify-content-center align-items-center">
-                      <input type="text" class="form-control" id="gameId" placeholder="GAME PIN" name="gameId" style="text-align: center;" required>
-                      <button onclick="joinGame()" type="submit" value="joinGame" class="btn btn-primary btn-block btn-lg">join game</button>
-                    </div>
-                  
-                    
-                    <p style="padding: 20px;"><strong>- or -</strong></p>
-
-                    <div class="form-label-group justify-content-center">
-                      <input type="text" class="form-control username" id="username" placeholder="USERNAME" name="username" style="text-align: center;" required>
-                      <button onclick="createGame()" type="submit" class="btn btn-lg btn-primary btn-block">create game</button>
-                    </div>
-
-
-                  </div>
-                </form>
-
+      <div class="d-flex flex-row justify-content-around align-items-center">
+        
+        <div class="d-flex flex-column justify-content-center align-items-center">
+          <div class="form-label-group justify-content-center align-items-center">
+            <input type="text" class="form-control my-3" id="gameId" placeholder="GAME PIN" name="gameId" style="text-align: center;" required>
+            <input type="text" class="form-control username my-3" id="joinGameUsername" placeholder="USERNAME" name="username" style="text-align: center;" required>
+            <button onclick="joinGame()" type="submit" value="joinGame" class="btn btn-primary btn-block btn-lg my-3">join game</button>
           </div>
+        </div>
+
+
+        <div>
+          <div class="form-label-group justify-content-center">
+            <input type="text" class="form-control username" id="createGameUsername" placeholder="USERNAME" name="username" style="text-align: center;" required>
+            <button onclick="createGame()" type="submit" class="btn btn-lg btn-primary btn-block my-3">create game</button>
+          </div>
+        </div>
+
+
       </div>
     </div>
     <!-- end new div -->
@@ -70,10 +63,7 @@
   <!-- me and peyton's javascript-->
   <script src='./js/landing.js'></script>
 
-  <!-- Scroll to Top Button-->
-  <a class="scroll-to-top rounded js-scroll-trigger" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
+
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
