@@ -4,6 +4,7 @@ const _ = require("lodash");
 
 const Game = require('../schemas/game');
 const Player = require('../schemas/player');
+const { random } = require("lodash");
 
 router.get('/test', (req, res) => {
   console.log('testing api works');
@@ -138,6 +139,34 @@ router.get('/start-game', (req, res) => {
       });
     }
   })
+});
+
+router.get('/get-fact', (req, res) => {
+  console.log(req);
+  Player.findOne({user_id: req.session.id}).then(player => {
+    if (player) {
+      Game.findOne({game_id: player.game_id}).then(game => {
+        var fact_index = game.factIndex;
+        real_fact = game.factList[fact_index];
+        players = game.players;
+        const shuffled = _.shuffle(players);
+        shuffled = shuffled.filter((elem) => elem != player.user_id).slice(0, 3);
+        Player.findOne({user_id: shuffled[0]}).then(player1 => {
+          Player.findOne({user_id: shuffled[1]}).then(player2 => {
+            Player.findOne({user_id: shuffled[2]}).then(player3 => {
+              res.send({fact: real_fact, round: fact_index, 
+                                          player0: {username: player.username, id: player.user_id}, 
+                                          player1: {username: player1.username, id: player1.user_id},
+                                          player2: {username: player2.username, id: player2.user_id},
+                                          player3: {username: player3.username, id: player3.user_id}});
+            });
+          });
+        });
+      });
+    } else {
+      res.send({ status: 'error', errorMessage: "Player Not Found" });
+    }
+  });
 });
 
 module.exports = router;
