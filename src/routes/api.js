@@ -209,4 +209,26 @@ router.post('/exit-game', (req, res) => {
   });
 });
 
+
+router.post('/answer', (req, res) => {
+  const answer = req.body.answer_id;
+  Player.findOne({ user_id: req.session.id }).then(p => {
+    if (p) {
+      Game.findOne({ game_id: p.game_id}).then(game => {
+        const {player, fact} = game.factList[game.gameIndex];
+        if (answer === player) {
+          p.score += 1000; // increment score
+          p.save();
+        }
+        res.send({});
+      });
+    } else {
+      res.send({
+        status: 'error',
+        errorMessage: 'No player found'
+      });
+    }
+  });
+});
+
 module.exports = router;
