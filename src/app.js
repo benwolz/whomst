@@ -45,6 +45,10 @@ app.get('/answer', (req, res) => {
   res.sendFile(`${__dirname}/views/answer/index.html`);
 });
 
+app.get('/podium', (req, res) => {
+    res.sendFile(`${__dirname}/views/podium/index.html`);
+});
+
 app.get('/client_shit', (req, res) => {
   res.sendFile(`${__dirname}/views/home.html`);
 });
