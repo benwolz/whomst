@@ -155,7 +155,7 @@ router.get('/leaderboard', (req,res) => {
         let scores = []
         if (game) {
           for (let player of game.players) {
-            scores.push({ player: player.username, score: player.score });
+            scores.push({ username: player.username, score: player.score });
           }
 
           scores.sort((a,b) => {
@@ -177,6 +177,34 @@ router.get('/leaderboard', (req,res) => {
         status: 'error',
         errorMessage: 'No player found'
       });
+    }
+  });
+});
+
+router.post('/exit-game', (req, res) => {
+  Player.deleteOne({ user_id: req.session.id }, function (err) {
+    if(err) {
+      console.log(err);
+      res.send({
+        status: 'error',
+        errorMessage: 'No player found'
+      });
+    }
+    console.log("Successful deletion");
+  });
+  Game.findOne({ players: req.session.id  }).then(game => { // TODO test this, IDK if it works
+    if(game) {
+      const index = game.players.indexOf(req.session.id);
+      if (index > -1) {
+        game.players.splice(index, 1);
+      }
+      game.save();
+      res.send({});
+    } else {
+      res.send({
+        status: 'error',
+        errorMessage: 'Player not in any games'
+      })
     }
   });
 });
