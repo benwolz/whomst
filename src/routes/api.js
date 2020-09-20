@@ -118,6 +118,7 @@ router.get('/game-info', (req, res) => {
             isHost: game.host_id === req.session.id
           });
         });
+      
       });
     } else {
       res.send({ status: 'error', errorMessage: "Player Not Found" });

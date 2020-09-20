@@ -3,9 +3,12 @@ async function enterLobby() {
     const paramsString = window.location.search;
     var searchParams = new URLSearchParams(paramsString);
 
+    console.log("search params: " + searchParams);
+
     const username = searchParams.get("username");
     const gameId = searchParams.get("gameId");
-    const isHost = searchParams.get("isHost");
+    let isHost = searchParams.get("isHost");
+    isHost = (isHost === 'true');
     const facts = [document.getElementById("fact1").value, document.getElementById("fact2").value, document.getElementById("fact3").value];
 
     var requestJson;
@@ -18,15 +21,17 @@ async function enterLobby() {
     let endOfURL = '/lobby';// + '?username='+username + '&gameId='+gameId + '&isHost='+isHost;
 
     console.log(`Attempting to join game ${gameId}`);
-    console.log(`ID: ${gameId} UserName: ${username} url: ${endOfURL} facts: ${facts}`);
+    console.log(`ID: ${gameId} UserName: ${username} url: ${endOfURL} facts: ${facts} isHost: ${isHost}`);
     
     try {
         let url;
         if (isHost){
+            console.log("is host");
             url = '/api/create-game';
         } else{
             url = '/api/join-game';
         }
+        console.log(url);
         await post(url, requestJson); 
     }
     catch (error) {
