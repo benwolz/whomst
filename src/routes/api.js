@@ -131,23 +131,28 @@ router.post('/start-game', (req, res) => {
       Game.findOne({ game_id: player.game_id }).then(game => {
         let factList = []; // Not sure if this will work
         for (let gamePlayer of game.players) {
-          Player.findOne({ user_id: gamePlayer }).then(playerData => {
+          factList.push(Player.findOne({ user_id: gamePlayer }).then(playerData => {
             if (playerData) {
+              let onePlayerFacts = []
               for (let fact of playerData.facts) {
-                factList.push({
+                onePlayerFacts.push({
                   player: playerData.user_id,
                   fact: fact
                 });
               }
+              return onePlayerFacts;
             }
-          });
-        }
+          }));
 
-        factList = _.shuffle(factList);
-        game.isStarted = true;
-        game.factIndex = 0;
-        game.factList = factList.slice(0, 10); // take the first 10 fact
-        game.save();
+          Promise.all(factList).then(fList => {
+            fList = _.flattenDeep(fList);
+            fList = _.shuffle(fList);
+            game.isStarted = true;
+            game.factIndex = 0;
+            game.fList = fList.slice(0, Math.min(fList.length, 10)); // take the first 10 fact
+            game.save();
+          })
+        }
       });
     }
   })
