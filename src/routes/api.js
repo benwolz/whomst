@@ -99,10 +99,17 @@ router.get('/game-info', (req, res) => {
   Player.findOne({ user_id: req.session.id }).then(player => {
     if (player) {
       Game.findOne({ game_id: player.game_id }).then(game => {
+        const usernames = []
+        for (let player of game.players) {
+          Player.findOne({ user_id: player }).then(p => {
+            usernames.push(p.username);
+          });
+        }
+        
         res.send({
           game_id: game.game_id,
           host_id: game.host_id,
-          players: game.players,
+          players: usernames,
           isStarted: game.isStarted,
           isHost: game.host_id === req.session.id
         });
@@ -113,7 +120,7 @@ router.get('/game-info', (req, res) => {
   });
 });
 
-router.get('/start-game', (req, res) => {
+router.post('/start-game', (req, res) => {
   Player.findOne({ user_id: req.session.id }).then(player => {
     if (player && player.isHost) {
       Game.findOne({ game_id: player.game_id }).then(game => {
@@ -165,6 +172,89 @@ router.get('/get-fact', (req, res) => {
       });
     } else {
       res.send({ status: 'error', errorMessage: "Player Not Found" });
+    }
+  });
+});
+
+router.get('/leaderboard', (req,res) => {
+  Player.findOne({user_id: req.session.id }).then(p => {
+    if (p) {
+      Game.findOne({ game_id: player.game_id}).then(game => {
+        let scores = []
+        if (game) {
+          for (let player of game.players) {
+            scores.push({ username: player.username, score: player.score });
+          }
+
+          scores.sort((a,b) => {
+            return ((a.score < b.score) ? 1 : ((a.score > b.score) ? -1 : 0));
+          });
+
+          res.send({
+            leaderboard: scores
+          });
+        } else {
+          res.send({
+            status: 'error',
+            errorMessage: 'Player not in a game'
+          });
+        }
+      });
+    } else {
+      res.send({
+        status: 'error',
+        errorMessage: 'No player found'
+      });
+    }
+  });
+});
+
+router.post('/exit-game', (req, res) => {
+  Player.deleteOne({ user_id: req.session.id }, function (err) {
+    if(err) {
+      console.log(err);
+      res.send({
+        status: 'error',
+        errorMessage: 'No player found'
+      });
+    }
+    console.log("Successful deletion");
+  });
+  Game.findOne({ players: req.session.id  }).then(game => { // TODO test this, IDK if it works
+    if(game) {
+      const index = game.players.indexOf(req.session.id);
+      if (index > -1) {
+        game.players.splice(index, 1);
+      }
+      game.save();
+      res.send({});
+    } else {
+      res.send({
+        status: 'error',
+        errorMessage: 'Player not in any games'
+      })
+    }
+  });
+});
+
+
+router.post('/answer', (req, res) => {
+  const answer = req.body.answer_id;
+  Player.findOne({ user_id: req.session.id }).then(p => {
+    if (p) {
+      Game.findOne({ game_id: p.game_id}).then(game => {
+        const {player, fact} = game.factList[game.gameIndex];
+        if (answer === player) {
+          p.score += 1000; // increment score
+          p.save();
+        }
+        res.send({});
+      });
+    } else {
+      res.send({
+        status: 'error',
+        errorMessage: 'No player found'
+      });
     }
   });
 });
