@@ -2,6 +2,7 @@ let correctAnswerIndex;
 
 //need some way to randomly shuffle the names
 async function displayFacts() {
+    console.log("retreiving facts")
     const roundFacts = await get('/api/get-fact', {}); //<-uncomment when API is up
     console.log(roundFacts);
     const dummyFact = 'Eats Bussy and Puccy';

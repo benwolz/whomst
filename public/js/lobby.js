@@ -9,8 +9,10 @@ async function startGame() {
   } catch (error) {
     console.error(error)
   }
-  let start = await get('/api/game-info', {});
+  //let start = await get('/api/game-info', {});
   console.log(start);
+
+  window.location.href = '/answer';
 }
 
 async function updateLobby() {

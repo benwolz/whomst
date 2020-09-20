@@ -66,8 +66,10 @@ router.post('/join-game', (req, res) => {
       });
       player.save();
       console.log(`User ${req.body.username} joined game with id ${req.body.gameId}`);
-
+      
+      console.log(game);
       game.players.push(req.session.id);
+      console.log(game.players);
       game.save();
     } else {
       if (game && game.players.includes(req.session.id)) {
@@ -127,6 +129,7 @@ router.get('/game-info', (req, res) => {
 });
 
 router.post('/start-game', (req, res) => {
+  console.log('doing startgame');
   Player.findOne({ user_id: req.session.id }).then(player => {
     if (player && player.isHost) {
       Game.findOne({ game_id: player.game_id }).then(game => {
@@ -144,7 +147,7 @@ router.post('/start-game', (req, res) => {
               return onePlayerFacts;
             }
           }));
-
+          console.log('entering promise');
           Promise.all(factList).then(fList => {
             fList = _.flattenDeep(fList);
             fList = _.shuffle(fList);
@@ -152,6 +155,7 @@ router.post('/start-game', (req, res) => {
             game.factIndex = 0;
             game.fList = fList.slice(0, Math.min(fList.length, 10)); // take the first 10 fact
             game.save();
+            res.send({});
           })
         }
       });
@@ -161,13 +165,14 @@ router.post('/start-game', (req, res) => {
 
 router.get('/get-fact', (req, res) => {
   console.log(req);
+  console.log("getting fact for " + req.session.id);
   Player.findOne({user_id: req.session.id}).then(player => {
     if (player) {
       Game.findOne({game_id: player.game_id}).then(game => {
         var fact_index = game.factIndex;
         real_fact = game.factList[fact_index];
         players = game.players;
-        const shuffled = _.shuffle(players);
+        let shuffled = _.shuffle(players);
         shuffled = shuffled.filter((elem) => elem != player.user_id).slice(0, 3);
         Player.findOne({user_id: shuffled[0]}).then(player1 => {
           Player.findOne({user_id: shuffled[1]}).then(player2 => {
