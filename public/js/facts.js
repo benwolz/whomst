@@ -1,4 +1,4 @@
-function enterLobby() {
+async function enterLobby() {
     //get username and gameId from URL
     const paramsString = window.location.search;
     var searchParams = new URLSearchParams(paramsString);
@@ -27,13 +27,13 @@ function enterLobby() {
         } else{
             url = '/api/create-game';
         }
-        post(url, requestJson);
+        await post(url, requestJson); 
     }
     catch (error) {
         console.error(error);
     }
 
-    // window.location.href = endOfURL;
+    window.location.href = endOfURL;
 }
 
 

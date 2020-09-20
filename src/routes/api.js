@@ -36,7 +36,8 @@ router.post('/create-game', (req, res) => {
       user_id: req.session.id,
       username: req.body.username,
       isHost: true,
-      facts: req.body.facts
+      facts: req.body.facts,
+      game_id: gameId
     });
     player.save();
     console.log(`User ${req.body.username} joined game with id ${gameId}`);

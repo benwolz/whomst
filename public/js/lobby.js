@@ -1,5 +1,5 @@
-function updateLobby() {
-  const gameData = httpGet('/api/game-info');
+async function updateLobby() {
+  const gameData = await get('/api/game-info', {});
   console.log(gameData)
   document.getElementById('game-pin').innerHTML = gameData.game_id;
   // game.players
