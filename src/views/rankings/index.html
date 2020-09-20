@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>FACTS</title>
+  <title>RANKINGS</title>
 
   <!-- Bootstrap Core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,50 +24,39 @@
 </head>
 
 <body>
-
+  <header class="masthead d-flex flex-column align-items-center">
     <div class="container">
-    <div class="row">
-        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-        <div class="card card-signin my-5">
-            <div class="card-body">
-            <h5 class="card-title text-center">Leaderboard!</h5>
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-        </div>
-        </div>
-    </div>
-    </div>
+      <div class="row">
+          <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+          <div class="card card-signin my-5">
+              <div class="card-body">
+              <h5 class="card-title text-center">Leaderboard!</h5>
+              <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Score</th>
+                    </tr>
+                  </thead>
+
+                  <tbody id="tableBody">
+                  </tbody>
+
+                </table>
+              </div>
+          </div>
+          </div>
+      </div>
+      </div>
+  </header>
+
 
   <!-- code we made -->
+  <script src='./js/rankings.js'></script>
+  <script>
+    getTopThree();
+  </script>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
