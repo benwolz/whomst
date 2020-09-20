@@ -1,9 +1,15 @@
-async function getRankings() {
+async function getPodium() {
     const tableBody = document.getElementById("tableBody");
-    const leaderboard = await get('/api/leaderboard', {}); //<- uncomment when API is complete
-    // const dummyLeaderboard = [["Mike", "5000"], ["Ben", "4000"], ["Dan", "3000"]];
+    var leaderboard;
+    try{
+        leaderboard = await get('/api/leaderboard', {});
+    }
+    catch (error){
+        console.log(error);
+    }
+    // const dummyLeaderboard = [{"username": "Dan", "score": "5000"}, {"username": "Ben", "score": "1000"}, {"username": "Peyton", "score": "20"}];
 
-
+    console.log(leaderboard);
     leaderboard.forEach((player, idx) => {
         newTR = document.createElement("TR"); //new tr
 
@@ -13,11 +19,11 @@ async function getRankings() {
         rankTH.appendChild(rank);
 
         var nameTD = document.createElement("TD");
-        var name = document.createTextNode(player[0]);
+        var name = document.createTextNode(player.username);
         nameTD.append(name);
 
         var scoreTD = document.createElement("TD");
-        var score = document.createTextNode(player[1]);
+        var score = document.createTextNode(player.score);
         scoreTD.append(score);
 
         newTR.append(rankTH);

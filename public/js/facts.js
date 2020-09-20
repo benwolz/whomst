@@ -25,7 +25,7 @@ async function enterLobby() {
         if (isHost){
             url = '/api/create-game';
         } else{
-            url = '/api/create-game';
+            url = '/api/join-game';
         }
         await post(url, requestJson); 
     }
