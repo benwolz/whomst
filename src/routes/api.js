@@ -147,4 +147,38 @@ router.post('/start-game', (req, res) => {
   })
 });
 
+
+router.get('/leaderboard', (req,res) => {
+  Player.findOne({user_id: req.session.id }).then(p => {
+    if (p) {
+      Game.findOne({ game_id: player.game_id}).then(game => {
+        let scores = []
+        if (game) {
+          for (let player of game.players) {
+            scores.push({ player: player.username, score: player.score });
+          }
+
+          scores.sort((a,b) => {
+            return ((a.score < b.score) ? 1 : ((a.score > b.score) ? -1 : 0));
+          });
+
+          res.send({
+            leaderboard: scores
+          });
+        } else {
+          res.send({
+            status: 'error',
+            errorMessage: 'Player not in a game'
+          });
+        }
+      });
+    } else {
+      res.send({
+        status: 'error',
+        errorMessage: 'No player found'
+      });
+    }
+  });
+});
+
 module.exports = router;
