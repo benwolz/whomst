@@ -8,7 +8,8 @@ const Player = new mongoose.Schema ({
   username: String,
   game_id: Number,
   isHost: Boolean,
-  facts: Array
+  facts: Array,
+  hasSubmitted: Boolean
 });
 
 // compile model from schema
