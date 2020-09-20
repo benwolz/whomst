@@ -38,7 +38,8 @@ router.post('/create-game', (req, res) => {
       username: req.body.username,
       isHost: true,
       facts: req.body.facts,
-      game_id: gameId
+      game_id: gameId,
+      hasSubmitted: false
     });
     player.save();
     console.log(`User ${req.body.username} joined game with id ${gameId}`);
@@ -60,7 +61,8 @@ router.post('/join-game', (req, res) => {
         user_id: req.session.id,
         username: req.body.username,
         isHost: game.game_id === req.body.gameId,
-        facts: req.body.facts // Need to add facts
+        facts: req.body.facts, // Need to add facts
+        hasSubmitted: false
       });
       player.save();
       console.log(`User ${req.body.username} joined game with id ${req.body.gameId}`);
@@ -244,11 +246,66 @@ router.post('/answer', (req, res) => {
     if (p) {
       Game.findOne({ game_id: p.game_id}).then(game => {
         const {player, fact} = game.factList[game.gameIndex];
+        p.hasSubmitted = true;
         if (answer === player) {
           p.score += 1000; // increment score
-          p.save();
         }
+        p.save();
         res.send({});
+      });
+    } else {
+      res.send({
+        status: 'error',
+        errorMessage: 'No player found'
+      });
+    }
+  });
+});
+
+router.post('/next-round', (req, res) => {
+  Player.findOne({ user_id: req.session.id }).then(p => {
+    if (p) {
+      Game.findOne({ game_id: p.game_id}).then(game => {
+        if(game) {
+          let allSubmitted = true;
+          for (let player of game.players) {
+            Player.findOne({ user_id: player }).then(x => {
+              allSubmitted = allSubmitted && x.hasSubmitted;
+            });
+          }
+
+          if(!allSubmitted) {
+            res.send({
+              status: 'failed',
+              error: 412,
+              errorMessage: 'Not everyone has submitted an answer yet'
+            });
+          }
+
+          for (let player of game.players) {
+            Player.findOne({ user_id: player }).then(x => {
+              x.hasSubmitted = false;
+              x.save();
+            });
+          }
+
+          game.factIndex += 1;
+          game.save();
+          if (game.factIndex >= factList.length) {
+            res.send({
+              gameOver: true
+            });
+          } else {
+            res.send({
+              gameOver: false
+            })
+          }
+        } else {
+          res.send({
+            status: 'error',
+            errorMessage: 'No game found'
+          });
+        }
       });
     } else {
       res.send({
