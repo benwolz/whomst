@@ -103,17 +103,20 @@ router.get('/game-info', (req, res) => {
       Game.findOne({ game_id: player.game_id }).then(game => {
         const usernames = []
         for (let player of game.players) {
-          Player.findOne({ user_id: player }).then(p => {
-            usernames.push(p.username);
-          });
+          usernames.push(Player.findOne({ user_id: player }).then(p => {
+            return p.username;
+          }));
         }
-        
-        res.send({
-          game_id: game.game_id,
-          host_id: game.host_id,
-          players: usernames,
-          isStarted: game.isStarted,
-          isHost: game.host_id === req.session.id
+        console.log(usernames);
+        Promise.all(usernames).then(users => {
+          console.log(users);
+          res.send({
+            game_id: game.game_id,
+            host_id: game.host_id,
+            players: users,
+            isStarted: game.isStarted,
+            isHost: game.host_id === req.session.id
+          });
         });
       });
     } else {
